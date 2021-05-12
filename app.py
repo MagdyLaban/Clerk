@@ -66,7 +66,7 @@ model = GecBERTModel(vocab_path= 'data/output_vocabulary',
 
 @app.get('/')
 def root():
-    return {'hello': 'world'}
+    return {'Welcome': 'Clerk is here'}
 
 @app.post('/predict')
 def predict(text: str):
