@@ -2,11 +2,21 @@ from utils.helpers import read_lines
 from gector.gec_model import GecBERTModel
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import nest_asyncio
+from pyngrok import ngrok
 import uvicorn
 import requests
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 def getmodel():
   models_url = ['https://grammarly-nlp-data-public.s3.amazonaws.com/gector/xlnet_0_gector.th',
@@ -65,7 +75,7 @@ def predict(text: str):
     f.writelines(text)
   return predict_for_file(path, model, 128)
 
-'''ngrok_tunnel = ngrok.connect(8000)
+ngrok_tunnel = ngrok.connect(8000)
 print('Public URL:', ngrok_tunnel.public_url)
 nest_asyncio.apply()
-uvicorn.run(app, port=8000)'''
+uvicorn.run(app, port=8000)
